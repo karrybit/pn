@@ -55,6 +55,27 @@ fn enough_order_modulo(n: u128) -> u128 {
     n
 }
 
+fn tortient(r: u128) -> u128 {
+    let ps = primes(r);
+    let mut res = r;
+    for p in ps {
+        res = res * (p - 1) / p;
+    }
+    res
+}
+
+fn primes(r: u128) -> HashSet<u128> {
+    let mut n = r;
+    let mut res = HashSet::new();
+    for p in 2..(((r as f64).sqrt() as u128) + 1) {
+        while n % p == 0 {
+            res.insert(p);
+            n /= p;
+        }
+    }
+    res
+}
+
 fn is_congruent(a: u128, n: u128, r: u128) -> bool {
     let ls = vec![a, 1];
     let ls1 = pow(n, n, &ls, r);
@@ -91,27 +112,6 @@ fn product(ls1: &[u128], ls2: &[u128], n: u128, r: u128) -> Vec<u128> {
         res[k] %= n;
         if k == res.len() - 1 && res[k] == 0 {
             res.remove(k);
-        }
-    }
-    res
-}
-
-fn tortient(r: u128) -> u128 {
-    let ps = primes(r);
-    let mut res = r;
-    for p in ps {
-        res = res * (p - 1) / p;
-    }
-    res
-}
-
-fn primes(r: u128) -> HashSet<u128> {
-    let mut n = r;
-    let mut res = HashSet::new();
-    for p in 2..(((r as f64).sqrt() as u128) + 1) {
-        while n % p == 0 {
-            res.insert(p);
-            n /= p;
         }
     }
     res
